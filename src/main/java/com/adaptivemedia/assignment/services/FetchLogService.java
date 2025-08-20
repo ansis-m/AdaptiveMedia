@@ -18,14 +18,14 @@ public class FetchLogService {
 
     private final DSLContext dsl;
 
-    public Optional<LocalDateTime> getLastFetchTimestamp() {
-        Optional<LocalDateTime> result = dsl.select(FETCH_LOG.FETCH_TIMESTAMP)
+    public LocalDateTime getLastFetchTimestamp() {
+        LocalDateTime result = dsl.select(FETCH_LOG.FETCH_TIMESTAMP)
                                             .from(FETCH_LOG)
                                             .orderBy(FETCH_LOG.ID.desc())
                                             .limit(1)
-                                            .fetchOptional(FETCH_LOG.FETCH_TIMESTAMP);
+                                            .fetchOne(FETCH_LOG.FETCH_TIMESTAMP);
 
-        log.debug("Retrieved last fetch timestamp: {}", result.orElse(null));
+        log.debug("Retrieved last fetch timestamp: {}", result);
         return result;
     }
 

@@ -1,5 +1,6 @@
 package com.adaptivemedia.assignment.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -7,6 +8,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 @Service
@@ -18,37 +20,37 @@ public class DataPollingService {
 
     private final FetchLogService fetchLogService;
     private final LockService lockService;
+    private final FetchService fetchService;
+    private final Clock clock;
 
 
+    @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void fetchHistoricalData() {
-        if (!lockService.tryAcquireLock(DATA_FETCH_LOCK)) {
-            log.info("Data fetch already in progress, skipping historical fetch");
-            return;
-        }
-
-        try {
-            LocalDateTime lastFetch = fetchLogService.getLastFetchTimestamp()
-                                                     .orElse(LocalDateTime.now().minusDays(30));
-            log.info("Starting historical fetch from: {}", lastFetch);
-//            fetchDataSince(lastFetch);
-        } finally {
-            lockService.releaseLock(DATA_FETCH_LOCK);
-        }
+        log.info("Fetching historical data");
+        executeDataFetch();
     }
 
-    @Scheduled(fixedRate = 300000) // 5 minutes
+    @Transactional
+    @Scheduled(fixedRate = 300000)
     public void pollForNewData() {
+        log.info("Fetching new data");
+        executeDataFetch();
+    }
+
+    private void executeDataFetch() {
+
         if (!lockService.tryAcquireLock(DATA_FETCH_LOCK)) {
             log.debug("Data fetch already in progress, skipping scheduled poll");
             return;
         }
 
         try {
-            LocalDateTime lastFetch = fetchLogService.getLastFetchTimestamp()
-                                                     .orElse(LocalDateTime.now().minusYears(20));
+            final LocalDateTime currentTime = LocalDateTime.now(clock);
+            final LocalDateTime lastFetch = fetchLogService.getLastFetchTimestamp();
             log.info("Starting scheduled fetch from: {}", lastFetch);
-//            fetchDataSince(lastFetch);
+            fetchService.fetchDataSince(lastFetch, currentTime);
+            fetchLogService.recordFetch(currentTime);
         } finally {
             lockService.releaseLock(DATA_FETCH_LOCK);
         }
