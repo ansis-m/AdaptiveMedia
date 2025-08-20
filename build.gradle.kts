@@ -2,6 +2,8 @@ plugins {
     java
     id("org.springframework.boot") version "3.5.4"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.jooq.jooq-codegen-gradle") version "3.19.15"
+    id("org.flywaydb.flyway") version "10.21.0"
 }
 
 group = "com.adaptivemedia"
@@ -18,6 +20,7 @@ configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
     }
+    jooqCodegen
 }
 
 repositories {
@@ -40,6 +43,57 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("com.h2database:h2")
+
+    jooqCodegen("org.postgresql:postgresql")
+    jooqCodegen("org.flywaydb:flyway-core")
+    jooqCodegen("org.flywaydb:flyway-database-postgresql")
+}
+
+buildscript {
+    dependencies {
+        classpath("org.postgresql:postgresql:42.7.3")
+        classpath("org.flywaydb:flyway-database-postgresql:10.21.0")
+    }
+}
+
+flyway {
+    url = "jdbc:postgresql://localhost:5432/adaptivemedia"
+    user = "adaptivemedia"
+    password = "adaptivemedia"
+    locations = arrayOf("classpath:db/migration")
+    cleanDisabled = false
+    baselineOnMigrate = true
+    validateMigrationNaming = true
+}
+
+jooq {
+    configuration {
+        jdbc {
+            driver = "org.postgresql.Driver"
+            url = "jdbc:postgresql://localhost:5432/adaptivemedia"
+            user = "adaptivemedia"
+            password = "adaptivemedia"
+        }
+        generator {
+            database {
+                name = "org.jooq.meta.postgres.PostgresDatabase"
+                inputSchema = "public"
+                includes = ".*"
+                excludes = "flyway_schema_history"
+            }
+            target {
+                packageName = "com.adaptivemedia.assignment.jooq"
+                directory = "src/main/java/generated"
+            }
+            generate {
+                isRecords = true
+                isDaos = true
+                isPojos = true
+                isSpringAnnotations = true
+                isJavaTimeTypes = true
+            }
+        }
+    }
 }
 
 tasks.withType<Test> {
@@ -52,6 +106,17 @@ tasks.jar {
 
 tasks.bootJar {
     archiveFileName.set("${project.name}-${project.version}.jar")
+}
+
+tasks.named("jooqCodegen") {
+    dependsOn("flywayMigrate")
+}
+
+tasks.register("updateSchema") {
+    group = "development"
+    description = "Run Flyway migrations and generate JOOQ code"
+    dependsOn("flywayMigrate")
+    finalizedBy("jooqCodegen")
 }
 
 tasks.register("dev") {
