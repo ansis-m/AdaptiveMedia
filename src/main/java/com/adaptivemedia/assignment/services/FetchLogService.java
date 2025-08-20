@@ -17,8 +17,6 @@ import static com.adaptivemedia.assignment.jooq.Tables.FETCH_LOG;
 public class FetchLogService {
 
     private final DSLContext dsl;
-    private final Clock clock;
-
 
     public Optional<LocalDateTime> getLastFetchTimestamp() {
         Optional<LocalDateTime> result = dsl.select(FETCH_LOG.FETCH_TIMESTAMP)
