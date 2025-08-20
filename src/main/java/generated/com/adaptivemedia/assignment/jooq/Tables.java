@@ -4,6 +4,7 @@
 package com.adaptivemedia.assignment.jooq;
 
 
+import com.adaptivemedia.assignment.jooq.tables.FetchLog;
 import com.adaptivemedia.assignment.jooq.tables.SalesData;
 
 
@@ -12,6 +13,11 @@ import com.adaptivemedia.assignment.jooq.tables.SalesData;
  */
 @SuppressWarnings({ "all", "unchecked", "rawtypes", "this-escape" })
 public class Tables {
+
+    /**
+     * The table <code>public.fetch_log</code>.
+     */
+    public static final FetchLog FETCH_LOG = FetchLog.FETCH_LOG;
 
     /**
      * Sales tracking data received from external APIs

@@ -4,7 +4,9 @@
 package com.adaptivemedia.assignment.jooq;
 
 
+import com.adaptivemedia.assignment.jooq.tables.FetchLog;
 import com.adaptivemedia.assignment.jooq.tables.SalesData;
+import com.adaptivemedia.assignment.jooq.tables.records.FetchLogRecord;
 import com.adaptivemedia.assignment.jooq.tables.records.SalesDataRecord;
 
 import org.jooq.TableField;
@@ -24,6 +26,7 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<FetchLogRecord> FETCH_LOG_PKEY = Internal.createUniqueKey(FetchLog.FETCH_LOG, DSL.name("fetch_log_pkey"), new TableField[] { FetchLog.FETCH_LOG.ID }, true);
     public static final UniqueKey<SalesDataRecord> SALES_DATA_PKEY = Internal.createUniqueKey(SalesData.SALES_DATA, DSL.name("sales_data_pkey"), new TableField[] { SalesData.SALES_DATA.ID }, true);
     public static final UniqueKey<SalesDataRecord> SALES_DATA_TRACKING_ID_KEY = Internal.createUniqueKey(SalesData.SALES_DATA, DSL.name("sales_data_tracking_id_key"), new TableField[] { SalesData.SALES_DATA.TRACKING_ID }, true);
 }

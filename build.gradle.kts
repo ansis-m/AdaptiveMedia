@@ -60,10 +60,6 @@ flyway {
     url = "jdbc:postgresql://localhost:5432/adaptivemedia"
     user = "adaptivemedia"
     password = "adaptivemedia"
-    locations = arrayOf("classpath:db/migration")
-    cleanDisabled = false
-    baselineOnMigrate = true
-    validateMigrationNaming = true
 }
 
 jooq {

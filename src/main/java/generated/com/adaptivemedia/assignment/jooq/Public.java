@@ -4,6 +4,7 @@
 package com.adaptivemedia.assignment.jooq;
 
 
+import com.adaptivemedia.assignment.jooq.tables.FetchLog;
 import com.adaptivemedia.assignment.jooq.tables.SalesData;
 
 import java.util.Arrays;
@@ -28,6 +29,11 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.fetch_log</code>.
+     */
+    public final FetchLog FETCH_LOG = FetchLog.FETCH_LOG;
+
+    /**
      * Sales tracking data received from external APIs
      */
     public final SalesData SALES_DATA = SalesData.SALES_DATA;
@@ -48,6 +54,7 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
+            FetchLog.FETCH_LOG,
             SalesData.SALES_DATA
         );
     }
