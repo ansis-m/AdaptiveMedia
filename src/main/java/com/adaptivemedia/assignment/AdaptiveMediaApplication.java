@@ -9,7 +9,6 @@ public class AdaptiveMediaApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AdaptiveMediaApplication.class, args);
-        SalesData data = new SalesData();
     }
 
 }
