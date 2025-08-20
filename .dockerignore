@@ -1,0 +1,42 @@
+# Gradle files
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+build/
+!build/libs/*.jar
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+docs/
+
+# Docker files (avoid recursion)
+Dockerfile
+.dockerignore
+docker-compose*.yml
+
+# Source code (we only need the JAR)
+src/
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
