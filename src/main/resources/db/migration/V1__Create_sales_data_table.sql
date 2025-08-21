@@ -1,13 +1,11 @@
 CREATE TABLE sales_data (
-                            id BIGSERIAL PRIMARY KEY,
-                            tracking_id VARCHAR(255) NOT NULL UNIQUE,
+                            id BIGINT PRIMARY KEY,
+                            tracking_id VARCHAR(255) NOT NULL,
                             visit_date TIMESTAMP NOT NULL,
                             sale_date TIMESTAMP,
                             sale_price DECIMAL(15,2),
                             product VARCHAR(500),
-                            commission_amount DECIMAL(15,2),
-                            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                            commission_amount DECIMAL(15,2)
 );
 
 CREATE INDEX idx_sales_data_tracking_id ON sales_data(tracking_id);

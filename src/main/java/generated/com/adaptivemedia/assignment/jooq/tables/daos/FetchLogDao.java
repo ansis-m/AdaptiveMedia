@@ -7,7 +7,7 @@ package com.adaptivemedia.assignment.jooq.tables.daos;
 import com.adaptivemedia.assignment.jooq.tables.FetchLog;
 import com.adaptivemedia.assignment.jooq.tables.records.FetchLogRecord;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,17 +74,17 @@ public class FetchLogDao extends DAOImpl<FetchLogRecord, com.adaptivemedia.assig
     }
 
     /**
-     * Fetch records that have <code>fetch_timestamp BETWEEN lowerInclusive AND
+     * Fetch records that have <code>fetch_date BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<com.adaptivemedia.assignment.jooq.tables.pojos.FetchLog> fetchRangeOfFetchTimestamp(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
-        return fetchRange(FetchLog.FETCH_LOG.FETCH_TIMESTAMP, lowerInclusive, upperInclusive);
+    public List<com.adaptivemedia.assignment.jooq.tables.pojos.FetchLog> fetchRangeOfFetchDate(LocalDate lowerInclusive, LocalDate upperInclusive) {
+        return fetchRange(FetchLog.FETCH_LOG.FETCH_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>fetch_timestamp IN (values)</code>
+     * Fetch records that have <code>fetch_date IN (values)</code>
      */
-    public List<com.adaptivemedia.assignment.jooq.tables.pojos.FetchLog> fetchByFetchTimestamp(LocalDateTime... values) {
-        return fetch(FetchLog.FETCH_LOG.FETCH_TIMESTAMP, values);
+    public List<com.adaptivemedia.assignment.jooq.tables.pojos.FetchLog> fetchByFetchDate(LocalDate... values) {
+        return fetch(FetchLog.FETCH_LOG.FETCH_DATE, values);
     }
 }

@@ -1,6 +1,6 @@
 CREATE TABLE fetch_log (
                            id BIGSERIAL PRIMARY KEY,
-                           fetch_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+                           fetch_date DATE NOT NULL
 );
 
-INSERT INTO fetch_log (fetch_timestamp) VALUES ('2000-01-01 00:00:00');
+INSERT INTO fetch_log (fetch_date) VALUES ('2025-01-01');

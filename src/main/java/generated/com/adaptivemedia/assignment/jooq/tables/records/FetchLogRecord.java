@@ -6,7 +6,7 @@ package com.adaptivemedia.assignment.jooq.tables.records;
 
 import com.adaptivemedia.assignment.jooq.tables.FetchLog;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import org.jooq.Record1;
 import org.jooq.impl.UpdatableRecordImpl;
@@ -35,17 +35,17 @@ public class FetchLogRecord extends UpdatableRecordImpl<FetchLogRecord> {
     }
 
     /**
-     * Setter for <code>public.fetch_log.fetch_timestamp</code>.
+     * Setter for <code>public.fetch_log.fetch_date</code>.
      */
-    public void setFetchTimestamp(LocalDateTime value) {
+    public void setFetchDate(LocalDate value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>public.fetch_log.fetch_timestamp</code>.
+     * Getter for <code>public.fetch_log.fetch_date</code>.
      */
-    public LocalDateTime getFetchTimestamp() {
-        return (LocalDateTime) get(1);
+    public LocalDate getFetchDate() {
+        return (LocalDate) get(1);
     }
 
     // -------------------------------------------------------------------------
@@ -71,11 +71,11 @@ public class FetchLogRecord extends UpdatableRecordImpl<FetchLogRecord> {
     /**
      * Create a detached, initialised FetchLogRecord
      */
-    public FetchLogRecord(Long id, LocalDateTime fetchTimestamp) {
+    public FetchLogRecord(Long id, LocalDate fetchDate) {
         super(FetchLog.FETCH_LOG);
 
         setId(id);
-        setFetchTimestamp(fetchTimestamp);
+        setFetchDate(fetchDate);
         resetChangedOnNotNull();
     }
 
@@ -87,7 +87,7 @@ public class FetchLogRecord extends UpdatableRecordImpl<FetchLogRecord> {
 
         if (value != null) {
             setId(value.getId());
-            setFetchTimestamp(value.getFetchTimestamp());
+            setFetchDate(value.getFetchDate());
             resetChangedOnNotNull();
         }
     }

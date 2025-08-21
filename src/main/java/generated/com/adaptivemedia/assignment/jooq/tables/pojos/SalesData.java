@@ -24,8 +24,6 @@ public class SalesData implements Serializable {
     private BigDecimal salePrice;
     private String product;
     private BigDecimal commissionAmount;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 
     public SalesData() {}
 
@@ -37,8 +35,6 @@ public class SalesData implements Serializable {
         this.salePrice = value.salePrice;
         this.product = value.product;
         this.commissionAmount = value.commissionAmount;
-        this.createdAt = value.createdAt;
-        this.updatedAt = value.updatedAt;
     }
 
     public SalesData(
@@ -48,9 +44,7 @@ public class SalesData implements Serializable {
         LocalDateTime saleDate,
         BigDecimal salePrice,
         String product,
-        BigDecimal commissionAmount,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
+        BigDecimal commissionAmount
     ) {
         this.id = id;
         this.trackingId = trackingId;
@@ -59,8 +53,6 @@ public class SalesData implements Serializable {
         this.salePrice = salePrice;
         this.product = product;
         this.commissionAmount = commissionAmount;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
     /**
@@ -173,34 +165,6 @@ public class SalesData implements Serializable {
         this.commissionAmount = commissionAmount;
     }
 
-    /**
-     * Getter for <code>public.sales_data.created_at</code>.
-     */
-    public LocalDateTime getCreatedAt() {
-        return this.createdAt;
-    }
-
-    /**
-     * Setter for <code>public.sales_data.created_at</code>.
-     */
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    /**
-     * Getter for <code>public.sales_data.updated_at</code>.
-     */
-    public LocalDateTime getUpdatedAt() {
-        return this.updatedAt;
-    }
-
-    /**
-     * Setter for <code>public.sales_data.updated_at</code>.
-     */
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -252,18 +216,6 @@ public class SalesData implements Serializable {
         }
         else if (!this.commissionAmount.equals(other.commissionAmount))
             return false;
-        if (this.createdAt == null) {
-            if (other.createdAt != null)
-                return false;
-        }
-        else if (!this.createdAt.equals(other.createdAt))
-            return false;
-        if (this.updatedAt == null) {
-            if (other.updatedAt != null)
-                return false;
-        }
-        else if (!this.updatedAt.equals(other.updatedAt))
-            return false;
         return true;
     }
 
@@ -278,8 +230,6 @@ public class SalesData implements Serializable {
         result = prime * result + ((this.salePrice == null) ? 0 : this.salePrice.hashCode());
         result = prime * result + ((this.product == null) ? 0 : this.product.hashCode());
         result = prime * result + ((this.commissionAmount == null) ? 0 : this.commissionAmount.hashCode());
-        result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
-        result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         return result;
     }
 
@@ -294,8 +244,6 @@ public class SalesData implements Serializable {
         sb.append(", ").append(salePrice);
         sb.append(", ").append(product);
         sb.append(", ").append(commissionAmount);
-        sb.append(", ").append(createdAt);
-        sb.append(", ").append(updatedAt);
 
         sb.append(")");
         return sb.toString();

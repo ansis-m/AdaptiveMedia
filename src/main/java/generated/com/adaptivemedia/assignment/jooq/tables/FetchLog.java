@@ -8,7 +8,7 @@ import com.adaptivemedia.assignment.jooq.Keys;
 import com.adaptivemedia.assignment.jooq.Public;
 import com.adaptivemedia.assignment.jooq.tables.records.FetchLogRecord;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import org.jooq.Condition;
@@ -57,9 +57,9 @@ public class FetchLog extends TableImpl<FetchLogRecord> {
     public final TableField<FetchLogRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>public.fetch_log.fetch_timestamp</code>.
+     * The column <code>public.fetch_log.fetch_date</code>.
      */
-    public final TableField<FetchLogRecord, LocalDateTime> FETCH_TIMESTAMP = createField(DSL.name("fetch_timestamp"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
+    public final TableField<FetchLogRecord, LocalDate> FETCH_DATE = createField(DSL.name("fetch_date"), SQLDataType.LOCALDATE.nullable(false), this, "");
 
     private FetchLog(Name alias, Table<FetchLogRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);

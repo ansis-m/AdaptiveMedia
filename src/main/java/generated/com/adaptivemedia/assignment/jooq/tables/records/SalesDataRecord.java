@@ -131,34 +131,6 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
         return (BigDecimal) get(6);
     }
 
-    /**
-     * Setter for <code>public.sales_data.created_at</code>.
-     */
-    public void setCreatedAt(LocalDateTime value) {
-        set(7, value);
-    }
-
-    /**
-     * Getter for <code>public.sales_data.created_at</code>.
-     */
-    public LocalDateTime getCreatedAt() {
-        return (LocalDateTime) get(7);
-    }
-
-    /**
-     * Setter for <code>public.sales_data.updated_at</code>.
-     */
-    public void setUpdatedAt(LocalDateTime value) {
-        set(8, value);
-    }
-
-    /**
-     * Getter for <code>public.sales_data.updated_at</code>.
-     */
-    public LocalDateTime getUpdatedAt() {
-        return (LocalDateTime) get(8);
-    }
-
     // -------------------------------------------------------------------------
     // Primary key information
     // -------------------------------------------------------------------------
@@ -182,7 +154,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
     /**
      * Create a detached, initialised SalesDataRecord
      */
-    public SalesDataRecord(Long id, String trackingId, LocalDateTime visitDate, LocalDateTime saleDate, BigDecimal salePrice, String product, BigDecimal commissionAmount, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public SalesDataRecord(Long id, String trackingId, LocalDateTime visitDate, LocalDateTime saleDate, BigDecimal salePrice, String product, BigDecimal commissionAmount) {
         super(SalesData.SALES_DATA);
 
         setId(id);
@@ -192,8 +164,6 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
         setSalePrice(salePrice);
         setProduct(product);
         setCommissionAmount(commissionAmount);
-        setCreatedAt(createdAt);
-        setUpdatedAt(updatedAt);
         resetChangedOnNotNull();
     }
 
@@ -211,8 +181,6 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
             setSalePrice(value.getSalePrice());
             setProduct(value.getProduct());
             setCommissionAmount(value.getCommissionAmount());
-            setCreatedAt(value.getCreatedAt());
-            setUpdatedAt(value.getUpdatedAt());
             resetChangedOnNotNull();
         }
     }

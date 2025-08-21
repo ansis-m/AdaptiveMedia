@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.time.LocalDate;
 
 import static com.adaptivemedia.assignment.jooq.Tables.FETCH_LOG;
 
@@ -18,22 +16,22 @@ public class FetchLogService {
 
     private final DSLContext dsl;
 
-    public LocalDateTime getLastFetchTimestamp() {
-        LocalDateTime result = dsl.select(FETCH_LOG.FETCH_TIMESTAMP)
+    public LocalDate getLastFetchDate() {
+        LocalDate result = dsl.select(FETCH_LOG.FETCH_DATE)
                                             .from(FETCH_LOG)
                                             .orderBy(FETCH_LOG.ID.desc())
                                             .limit(1)
-                                            .fetchOne(FETCH_LOG.FETCH_TIMESTAMP);
+                                            .fetchOne(FETCH_LOG.FETCH_DATE);
 
         log.debug("Retrieved last fetch timestamp: {}", result);
         return result;
     }
 
-    public void recordFetch(LocalDateTime timestamp) {
+    public void recordCompletedFetch(LocalDate date) {
         dsl.insertInto(FETCH_LOG)
-           .set(FETCH_LOG.FETCH_TIMESTAMP, timestamp)
+           .set(FETCH_LOG.FETCH_DATE, date)
            .execute();
 
-        log.info("Recorded fetch timestamp: {}", timestamp);
+        log.info("Recorded fetch date: {}", date);
     }
 }

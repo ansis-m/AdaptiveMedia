@@ -5,7 +5,7 @@ package com.adaptivemedia.assignment.jooq.tables.pojos;
 
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 /**
@@ -17,21 +17,21 @@ public class FetchLog implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
-    private LocalDateTime fetchTimestamp;
+    private LocalDate fetchDate;
 
     public FetchLog() {}
 
     public FetchLog(FetchLog value) {
         this.id = value.id;
-        this.fetchTimestamp = value.fetchTimestamp;
+        this.fetchDate = value.fetchDate;
     }
 
     public FetchLog(
         Long id,
-        LocalDateTime fetchTimestamp
+        LocalDate fetchDate
     ) {
         this.id = id;
-        this.fetchTimestamp = fetchTimestamp;
+        this.fetchDate = fetchDate;
     }
 
     /**
@@ -49,17 +49,17 @@ public class FetchLog implements Serializable {
     }
 
     /**
-     * Getter for <code>public.fetch_log.fetch_timestamp</code>.
+     * Getter for <code>public.fetch_log.fetch_date</code>.
      */
-    public LocalDateTime getFetchTimestamp() {
-        return this.fetchTimestamp;
+    public LocalDate getFetchDate() {
+        return this.fetchDate;
     }
 
     /**
-     * Setter for <code>public.fetch_log.fetch_timestamp</code>.
+     * Setter for <code>public.fetch_log.fetch_date</code>.
      */
-    public void setFetchTimestamp(LocalDateTime fetchTimestamp) {
-        this.fetchTimestamp = fetchTimestamp;
+    public void setFetchDate(LocalDate fetchDate) {
+        this.fetchDate = fetchDate;
     }
 
     @Override
@@ -77,11 +77,11 @@ public class FetchLog implements Serializable {
         }
         else if (!this.id.equals(other.id))
             return false;
-        if (this.fetchTimestamp == null) {
-            if (other.fetchTimestamp != null)
+        if (this.fetchDate == null) {
+            if (other.fetchDate != null)
                 return false;
         }
-        else if (!this.fetchTimestamp.equals(other.fetchTimestamp))
+        else if (!this.fetchDate.equals(other.fetchDate))
             return false;
         return true;
     }
@@ -91,7 +91,7 @@ public class FetchLog implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
-        result = prime * result + ((this.fetchTimestamp == null) ? 0 : this.fetchTimestamp.hashCode());
+        result = prime * result + ((this.fetchDate == null) ? 0 : this.fetchDate.hashCode());
         return result;
     }
 
@@ -100,7 +100,7 @@ public class FetchLog implements Serializable {
         StringBuilder sb = new StringBuilder("FetchLog (");
 
         sb.append(id);
-        sb.append(", ").append(fetchTimestamp);
+        sb.append(", ").append(fetchDate);
 
         sb.append(")");
         return sb.toString();

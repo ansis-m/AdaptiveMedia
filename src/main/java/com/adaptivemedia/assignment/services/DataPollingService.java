@@ -1,58 +1,30 @@
 package com.adaptivemedia.assignment.services;
 
-import jakarta.transaction.Transactional;
+import com.adaptivemedia.assignment.apiClients.SalesDataClient;
+import com.adaptivemedia.assignment.jooq.tables.pojos.SalesData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.Clock;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class DataPollingService {
 
-    private static final String DATA_FETCH_LOCK = "DATA_FETCH";
-
-    private final FetchLogService fetchLogService;
-    private final LockService lockService;
-    private final FetchService fetchService;
-    private final Clock clock;
+    private final SalesDataClient salesDataClient;
+    private final SalesDataService salesDataService;
 
 
-    @Transactional
-    @EventListener(ApplicationReadyEvent.class)
-    public void fetchHistoricalData() {
-        log.info("Fetching historical data");
-        executeDataFetch();
-    }
+    void executeDataFetch(LocalDate date) {
+        
+//        1) fetch data for the day (here for now)
+//        2)  call external service with transactional to save
 
-    @Transactional
-    @Scheduled(fixedRate = 300000)
-    public void pollForNewData() {
-        log.info("Fetching new data");
-        executeDataFetch();
-    }
-
-    private void executeDataFetch() {
-
-        if (!lockService.tryAcquireLock(DATA_FETCH_LOCK)) {
-            log.debug("Data fetch already in progress, skipping scheduled poll");
-            return;
-        }
-
-        try {
-            final LocalDateTime currentTime = LocalDateTime.now(clock);
-            final LocalDateTime lastFetch = fetchLogService.getLastFetchTimestamp();
-            log.info("Starting scheduled fetch from: {}", lastFetch);
-            fetchService.fetchDataSince(lastFetch, currentTime);
-            fetchLogService.recordFetch(currentTime);
-        } finally {
-            lockService.releaseLock(DATA_FETCH_LOCK);
-        }
+        List<SalesData> data = salesDataClient.getSalesData(date, date);
+//        data.forEach(System.out::println);
+        salesDataService.saveSalesData(data, date);
     }
 }

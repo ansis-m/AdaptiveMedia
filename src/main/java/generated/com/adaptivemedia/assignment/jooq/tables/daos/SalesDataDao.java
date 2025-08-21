@@ -90,20 +90,6 @@ public class SalesDataDao extends DAOImpl<SalesDataRecord, com.adaptivemedia.ass
     }
 
     /**
-     * Fetch a unique record that has <code>tracking_id = value</code>
-     */
-    public com.adaptivemedia.assignment.jooq.tables.pojos.SalesData fetchOneByTrackingId(String value) {
-        return fetchOne(SalesData.SALES_DATA.TRACKING_ID, value);
-    }
-
-    /**
-     * Fetch a unique record that has <code>tracking_id = value</code>
-     */
-    public Optional<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchOptionalByTrackingId(String value) {
-        return fetchOptional(SalesData.SALES_DATA.TRACKING_ID, value);
-    }
-
-    /**
      * Fetch records that have <code>visit_date BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -176,35 +162,5 @@ public class SalesDataDao extends DAOImpl<SalesDataRecord, com.adaptivemedia.ass
      */
     public List<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchByCommissionAmount(BigDecimal... values) {
         return fetch(SalesData.SALES_DATA.COMMISSION_AMOUNT, values);
-    }
-
-    /**
-     * Fetch records that have <code>created_at BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchRangeOfCreatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
-        return fetchRange(SalesData.SALES_DATA.CREATED_AT, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>created_at IN (values)</code>
-     */
-    public List<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchByCreatedAt(LocalDateTime... values) {
-        return fetch(SalesData.SALES_DATA.CREATED_AT, values);
-    }
-
-    /**
-     * Fetch records that have <code>updated_at BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchRangeOfUpdatedAt(LocalDateTime lowerInclusive, LocalDateTime upperInclusive) {
-        return fetchRange(SalesData.SALES_DATA.UPDATED_AT, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>updated_at IN (values)</code>
-     */
-    public List<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchByUpdatedAt(LocalDateTime... values) {
-        return fetch(SalesData.SALES_DATA.UPDATED_AT, values);
     }
 }

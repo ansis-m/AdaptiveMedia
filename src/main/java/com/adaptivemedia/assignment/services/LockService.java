@@ -13,17 +13,13 @@ public class LockService {
 
     private final DSLContext dsl;
 
-    public boolean tryAcquireLock(String lockName) {
-        try {
-            int lockId = lockName.hashCode();
-            Boolean acquired = dsl.select(DSL.field("pg_try_advisory_lock({0})", Boolean.class, lockId))
-                                  .fetchOneInto(Boolean.class);
+    public void acquireLockOrThrow(String lockName) {
+        int lockId = lockName.hashCode();
+        Boolean acquired = dsl.select(DSL.field("pg_try_advisory_lock({0})", Boolean.class, lockId))
+                              .fetchOneInto(Boolean.class);
 
-            log.debug("Lock '{}' acquisition: {}", lockName, acquired);
-            return acquired != null && acquired;
-        } catch (Exception e) {
-            log.error("Error acquiring lock: {}", lockName, e);
-            return false;
+        if (acquired == null || !acquired) {
+            throw new RuntimeException("Failed to acquire lock: " + lockName);
         }
     }
 

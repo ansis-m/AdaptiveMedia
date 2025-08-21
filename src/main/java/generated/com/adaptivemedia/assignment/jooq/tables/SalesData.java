@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.jooq.Condition;
 import org.jooq.Field;
-import org.jooq.Identity;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.PlainSQL;
@@ -59,7 +58,7 @@ public class SalesData extends TableImpl<SalesDataRecord> {
     /**
      * The column <code>public.sales_data.id</code>.
      */
-    public final TableField<SalesDataRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false).identity(true), this, "");
+    public final TableField<SalesDataRecord, Long> ID = createField(DSL.name("id"), SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
      * The column <code>public.sales_data.tracking_id</code>. Unique identifier
@@ -96,16 +95,6 @@ public class SalesData extends TableImpl<SalesDataRecord> {
      * earned from this sale
      */
     public final TableField<SalesDataRecord, BigDecimal> COMMISSION_AMOUNT = createField(DSL.name("commission_amount"), SQLDataType.NUMERIC(15, 2), this, "Commission earned from this sale");
-
-    /**
-     * The column <code>public.sales_data.created_at</code>.
-     */
-    public final TableField<SalesDataRecord, LocalDateTime> CREATED_AT = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(6).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
-
-    /**
-     * The column <code>public.sales_data.updated_at</code>.
-     */
-    public final TableField<SalesDataRecord, LocalDateTime> UPDATED_AT = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "");
 
     private SalesData(Name alias, Table<SalesDataRecord> aliased) {
         this(alias, aliased, (Field<?>[]) null, null);
@@ -147,18 +136,8 @@ public class SalesData extends TableImpl<SalesDataRecord> {
     }
 
     @Override
-    public Identity<SalesDataRecord, Long> getIdentity() {
-        return (Identity<SalesDataRecord, Long>) super.getIdentity();
-    }
-
-    @Override
     public UniqueKey<SalesDataRecord> getPrimaryKey() {
         return Keys.SALES_DATA_PKEY;
-    }
-
-    @Override
-    public List<UniqueKey<SalesDataRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.SALES_DATA_TRACKING_ID_KEY);
     }
 
     @Override
