@@ -22,7 +22,7 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index IDX_SALES_DATA_SALE_DATE = Internal.createIndex(DSL.name("idx_sales_data_sale_date"), SalesData.SALES_DATA, new OrderField[] { SalesData.SALES_DATA.SALE_DATE }, false);
+    public static final Index IDX_SALES_DATA_CODE_VISIT_SALE_DATES = Internal.createIndex(DSL.name("idx_sales_data_code_visit_sale_dates"), SalesData.SALES_DATA, new OrderField[] { SalesData.SALES_DATA.TRACKING_CODE, SalesData.SALES_DATA.VISIT_DATE, SalesData.SALES_DATA.SALE_DATE }, false);
     public static final Index IDX_SALES_DATA_TRACKING_ID = Internal.createIndex(DSL.name("idx_sales_data_tracking_id"), SalesData.SALES_DATA, new OrderField[] { SalesData.SALES_DATA.TRACKING_ID }, false);
-    public static final Index IDX_SALES_DATA_VISIT_DATE = Internal.createIndex(DSL.name("idx_sales_data_visit_date"), SalesData.SALES_DATA, new OrderField[] { SalesData.SALES_DATA.VISIT_DATE }, false);
+    public static final Index IDX_SALES_DATA_VISIT_SALE_PRODUCT = Internal.createIndex(DSL.name("idx_sales_data_visit_sale_product"), SalesData.SALES_DATA, new OrderField[] { SalesData.SALES_DATA.VISIT_DATE, SalesData.SALES_DATA.SALE_DATE, SalesData.SALES_DATA.PRODUCT }, false);
 }

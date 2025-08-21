@@ -90,6 +90,21 @@ public class SalesDataDao extends DAOImpl<SalesDataRecord, com.adaptivemedia.ass
     }
 
     /**
+     * Fetch records that have <code>tracking_code BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchRangeOfTrackingCode(String lowerInclusive, String upperInclusive) {
+        return fetchRange(SalesData.SALES_DATA.TRACKING_CODE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>tracking_code IN (values)</code>
+     */
+    public List<com.adaptivemedia.assignment.jooq.tables.pojos.SalesData> fetchByTrackingCode(String... values) {
+        return fetch(SalesData.SALES_DATA.TRACKING_CODE, values);
+    }
+
+    /**
      * Fetch records that have <code>visit_date BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

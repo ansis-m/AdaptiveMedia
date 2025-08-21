@@ -39,6 +39,9 @@ class HttpInterfaceConfig {
     public SalesDataClient salesDataClient() {
         WebClient webClient = WebClient.builder()
                                        .baseUrl(baseUrl)
+                                       .codecs(configurer -> configurer
+                                               .defaultCodecs()
+                                               .maxInMemorySize(10 * 1024 * 1024))
                                        .build();
 
         HttpServiceProxyFactory factory = HttpServiceProxyFactory

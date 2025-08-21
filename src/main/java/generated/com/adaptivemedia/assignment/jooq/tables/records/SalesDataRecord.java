@@ -52,11 +52,25 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
     }
 
     /**
+     * Setter for <code>public.sales_data.tracking_code</code>.
+     */
+    public void setTrackingCode(String value) {
+        set(2, value);
+    }
+
+    /**
+     * Getter for <code>public.sales_data.tracking_code</code>.
+     */
+    public String getTrackingCode() {
+        return (String) get(2);
+    }
+
+    /**
      * Setter for <code>public.sales_data.visit_date</code>. When the visitor
      * first arrived
      */
     public void setVisitDate(LocalDateTime value) {
-        set(2, value);
+        set(3, value);
     }
 
     /**
@@ -64,7 +78,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * first arrived
      */
     public LocalDateTime getVisitDate() {
-        return (LocalDateTime) get(2);
+        return (LocalDateTime) get(3);
     }
 
     /**
@@ -72,7 +86,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * completed (null if no sale yet)
      */
     public void setSaleDate(LocalDateTime value) {
-        set(3, value);
+        set(4, value);
     }
 
     /**
@@ -80,7 +94,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * completed (null if no sale yet)
      */
     public LocalDateTime getSaleDate() {
-        return (LocalDateTime) get(3);
+        return (LocalDateTime) get(4);
     }
 
     /**
@@ -88,7 +102,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * USD
      */
     public void setSalePrice(BigDecimal value) {
-        set(4, value);
+        set(5, value);
     }
 
     /**
@@ -96,7 +110,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * USD
      */
     public BigDecimal getSalePrice() {
-        return (BigDecimal) get(4);
+        return (BigDecimal) get(5);
     }
 
     /**
@@ -104,7 +118,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * identifier
      */
     public void setProduct(String value) {
-        set(5, value);
+        set(6, value);
     }
 
     /**
@@ -112,7 +126,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * identifier
      */
     public String getProduct() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
@@ -120,7 +134,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * earned from this sale
      */
     public void setCommissionAmount(BigDecimal value) {
-        set(6, value);
+        set(7, value);
     }
 
     /**
@@ -128,7 +142,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
      * earned from this sale
      */
     public BigDecimal getCommissionAmount() {
-        return (BigDecimal) get(6);
+        return (BigDecimal) get(7);
     }
 
     // -------------------------------------------------------------------------
@@ -154,11 +168,12 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
     /**
      * Create a detached, initialised SalesDataRecord
      */
-    public SalesDataRecord(Long id, String trackingId, LocalDateTime visitDate, LocalDateTime saleDate, BigDecimal salePrice, String product, BigDecimal commissionAmount) {
+    public SalesDataRecord(Long id, String trackingId, String trackingCode, LocalDateTime visitDate, LocalDateTime saleDate, BigDecimal salePrice, String product, BigDecimal commissionAmount) {
         super(SalesData.SALES_DATA);
 
         setId(id);
         setTrackingId(trackingId);
+        setTrackingCode(trackingCode);
         setVisitDate(visitDate);
         setSaleDate(saleDate);
         setSalePrice(salePrice);
@@ -176,6 +191,7 @@ public class SalesDataRecord extends UpdatableRecordImpl<SalesDataRecord> {
         if (value != null) {
             setId(value.getId());
             setTrackingId(value.getTrackingId());
+            setTrackingCode(value.getTrackingCode());
             setVisitDate(value.getVisitDate());
             setSaleDate(value.getSaleDate());
             setSalePrice(value.getSalePrice());

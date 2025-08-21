@@ -19,6 +19,7 @@ public class SalesData implements Serializable {
 
     private Long id;
     private String trackingId;
+    private String trackingCode;
     private LocalDateTime visitDate;
     private LocalDateTime saleDate;
     private BigDecimal salePrice;
@@ -30,6 +31,7 @@ public class SalesData implements Serializable {
     public SalesData(SalesData value) {
         this.id = value.id;
         this.trackingId = value.trackingId;
+        this.trackingCode = value.trackingCode;
         this.visitDate = value.visitDate;
         this.saleDate = value.saleDate;
         this.salePrice = value.salePrice;
@@ -40,6 +42,7 @@ public class SalesData implements Serializable {
     public SalesData(
         Long id,
         String trackingId,
+        String trackingCode,
         LocalDateTime visitDate,
         LocalDateTime saleDate,
         BigDecimal salePrice,
@@ -48,6 +51,7 @@ public class SalesData implements Serializable {
     ) {
         this.id = id;
         this.trackingId = trackingId;
+        this.trackingCode = trackingCode;
         this.visitDate = visitDate;
         this.saleDate = saleDate;
         this.salePrice = salePrice;
@@ -83,6 +87,20 @@ public class SalesData implements Serializable {
      */
     public void setTrackingId(String trackingId) {
         this.trackingId = trackingId;
+    }
+
+    /**
+     * Getter for <code>public.sales_data.tracking_code</code>.
+     */
+    public String getTrackingCode() {
+        return this.trackingCode;
+    }
+
+    /**
+     * Setter for <code>public.sales_data.tracking_code</code>.
+     */
+    public void setTrackingCode(String trackingCode) {
+        this.trackingCode = trackingCode;
     }
 
     /**
@@ -186,6 +204,12 @@ public class SalesData implements Serializable {
         }
         else if (!this.trackingId.equals(other.trackingId))
             return false;
+        if (this.trackingCode == null) {
+            if (other.trackingCode != null)
+                return false;
+        }
+        else if (!this.trackingCode.equals(other.trackingCode))
+            return false;
         if (this.visitDate == null) {
             if (other.visitDate != null)
                 return false;
@@ -225,6 +249,7 @@ public class SalesData implements Serializable {
         int result = 1;
         result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
         result = prime * result + ((this.trackingId == null) ? 0 : this.trackingId.hashCode());
+        result = prime * result + ((this.trackingCode == null) ? 0 : this.trackingCode.hashCode());
         result = prime * result + ((this.visitDate == null) ? 0 : this.visitDate.hashCode());
         result = prime * result + ((this.saleDate == null) ? 0 : this.saleDate.hashCode());
         result = prime * result + ((this.salePrice == null) ? 0 : this.salePrice.hashCode());
@@ -239,6 +264,7 @@ public class SalesData implements Serializable {
 
         sb.append(id);
         sb.append(", ").append(trackingId);
+        sb.append(", ").append(trackingCode);
         sb.append(", ").append(visitDate);
         sb.append(", ").append(saleDate);
         sb.append(", ").append(salePrice);

@@ -67,6 +67,11 @@ public class SalesData extends TableImpl<SalesDataRecord> {
     public final TableField<SalesDataRecord, String> TRACKING_ID = createField(DSL.name("tracking_id"), SQLDataType.VARCHAR(255).nullable(false), this, "Unique identifier for tracking visitor to sale conversion");
 
     /**
+     * The column <code>public.sales_data.tracking_code</code>.
+     */
+    public final TableField<SalesDataRecord, String> TRACKING_CODE = createField(DSL.name("tracking_code"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+
+    /**
      * The column <code>public.sales_data.visit_date</code>. When the visitor
      * first arrived
      */
@@ -132,7 +137,7 @@ public class SalesData extends TableImpl<SalesDataRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IDX_SALES_DATA_SALE_DATE, Indexes.IDX_SALES_DATA_TRACKING_ID, Indexes.IDX_SALES_DATA_VISIT_DATE);
+        return Arrays.asList(Indexes.IDX_SALES_DATA_CODE_VISIT_SALE_DATES, Indexes.IDX_SALES_DATA_TRACKING_ID, Indexes.IDX_SALES_DATA_VISIT_SALE_PRODUCT);
     }
 
     @Override
