@@ -3,12 +3,12 @@ package com.adaptivemedia.assignment.services;
 import com.adaptivemedia.assignment.jooq.Keys;
 import com.adaptivemedia.assignment.jooq.tables.pojos.SalesData;
 import com.adaptivemedia.assignment.jooq.tables.records.SalesDataRecord;
+import com.adaptivemedia.assignment.properties.TrackingProperties;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.InsertReturningStep;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,23 +24,21 @@ public class SalesDataService {
 
     private static final String DATA_FETCH_LOCK = "DATA_FETCH";
 
-    @Value("${app.tracking.codes:ABB,TBS,EKW}")
-    private final List<String> trackingCodes;
-
     private final DSLContext dslContext;
     private final FetchLogService fetchLogService;
     private final LockService lockService;
+    private final TrackingProperties trackingProperties;
 
     @Transactional
-    public void saveSalesData(List<SalesData> salesDataList, LocalDate date) {
-
-        lockService.acquireLockOrThrow(DATA_FETCH_LOCK);
+    public void saveSalesData(List<SalesData> salesData, LocalDate date) {
 
         try {
-            List<InsertReturningStep<SalesDataRecord>> insertQueries = salesDataList.stream()
+            List<InsertReturningStep<SalesDataRecord>> insertQueries = salesData.stream()
                     .filter(this::trackingIdsBelongToAdaptiveMediaPages)
                     .map(this::mapToStep)
                     .toList();
+
+            lockService.acquireLockOrThrow(DATA_FETCH_LOCK);
 
             int[] saved = dslContext.batch(insertQueries).execute();
             log.info("Saved {} records", Arrays.stream(saved).sum());
@@ -53,7 +51,7 @@ public class SalesDataService {
     }
 
     private boolean trackingIdsBelongToAdaptiveMediaPages(SalesData salesData) {
-        return trackingCodes.stream().anyMatch(salesData.getTrackingId()::startsWith);
+        return trackingProperties.getCodes().stream().anyMatch(salesData.getTrackingId()::startsWith);
     }
 
     private InsertReturningStep<SalesDataRecord> mapToStep(SalesData salesData) {

@@ -23,17 +23,15 @@ public class LockService {
         }
     }
 
-    public boolean releaseLock(String lockName) {
+    public void releaseLock(String lockName) {
         try {
             int lockId = lockName.hashCode();
             Boolean released = dsl.select(DSL.field("pg_advisory_unlock({0})", Boolean.class, lockId))
                                   .fetchOneInto(Boolean.class);
 
             log.debug("Lock '{}' release: {}", lockName, released);
-            return released != null && released;
         } catch (Exception e) {
             log.error("Error releasing lock: {}", lockName, e);
-            return false;
         }
     }
 }
