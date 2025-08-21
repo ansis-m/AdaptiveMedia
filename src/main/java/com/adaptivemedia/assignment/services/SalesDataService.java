@@ -37,6 +37,7 @@ public class SalesDataService {
     @Transactional
     public void saveSalesData(List<SalesData> salesData, LocalDate date) {
 
+        log.info("{} sales records passed to saveSalesData", salesData.size());
         try {
             List<InsertReturningStep<SalesDataRecord>> insertQueries = salesData.stream()
                     .filter(data -> !savedIdsCache.contains(data.getId()))  // Fast O(1) cache filter first
@@ -46,8 +47,9 @@ public class SalesDataService {
 
             lockService.acquireLockOrThrow(DATA_FETCH_LOCK);
 
+            log.info("Passed {} records to JOOQ", insertQueries.size());
             int[] saved = dslContext.batch(insertQueries).execute();
-            log.info("Saved {} records", Arrays.stream(saved).sum());
+            log.info("JOOQ saved {} records", Arrays.stream(saved).sum());
 
             fetchLogService.recordCompletedFetch(date);
             updateCache(salesData);
@@ -60,7 +62,7 @@ public class SalesDataService {
     private void updateCache(List<SalesData> salesData) {
 
         if (savedIdsCache.size() > MAX_CACHE_SIZE) {
-            savedIdsCache.clear();
+            savedIdsCache.clear(); //jooq does nothing on conflict, so no big deal if we clear the cache
         }
 
         salesData.stream()
