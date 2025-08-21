@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static com.adaptivemedia.assignment.jooq.Tables.SALES_DATA;
 
@@ -23,17 +25,21 @@ import static com.adaptivemedia.assignment.jooq.Tables.SALES_DATA;
 public class SalesDataService {
 
     private static final String DATA_FETCH_LOCK = "DATA_FETCH";
+    private static final int MAX_CACHE_SIZE = 100_000;
 
     private final DSLContext dslContext;
     private final FetchLogService fetchLogService;
     private final LockService lockService;
     private final TrackingProperties trackingProperties;
 
+    private final Set<Long> savedIdsCache = ConcurrentHashMap.newKeySet();
+
     @Transactional
     public void saveSalesData(List<SalesData> salesData, LocalDate date) {
 
         try {
             List<InsertReturningStep<SalesDataRecord>> insertQueries = salesData.stream()
+                    .filter(data -> !savedIdsCache.contains(data.getId()))  // Fast O(1) cache filter first
                     .filter(this::trackingIdsBelongToAdaptiveMediaPages)
                     .map(this::mapToStep)
                     .toList();
@@ -44,10 +50,22 @@ public class SalesDataService {
             log.info("Saved {} records", Arrays.stream(saved).sum());
 
             fetchLogService.recordCompletedFetch(date);
+            updateCache(salesData);
             log.info("Completed scheduled fetch for date: {}", date);
         } finally {
             lockService.releaseLock(DATA_FETCH_LOCK);
         }
+    }
+
+    private void updateCache(List<SalesData> salesData) {
+
+        if (savedIdsCache.size() > MAX_CACHE_SIZE) {
+            savedIdsCache.clear();
+        }
+
+        salesData.stream()
+                 .map(SalesData::getId)
+                 .forEach(savedIdsCache::add);
     }
 
     private boolean trackingIdsBelongToAdaptiveMediaPages(SalesData salesData) {
