@@ -26,15 +26,15 @@ public class SalesAnalyticsService {
 
     private final DSLContext dsl;
 
-    public ConversionRate getConversionRate(String trackingCode, LocalDate startDate, LocalDate endDate) {
+    public ConversionRate getConversionRate(String trackingCode, LocalDate fromDate, LocalDate toDate) {
 
-        LocalDateTime fromDateTime = startDate.atStartOfDay();
-        LocalDateTime toDateTime = endDate.atTime(LocalTime.MAX);
+        LocalDateTime fromDateTime = fromDate.atStartOfDay();
+        LocalDateTime toDateTime = toDate.atTime(LocalTime.MAX);
 
         validateDateRange(fromDateTime, toDateTime);
 
         log.debug("Getting conversion rate for trackingCode: {}, dateRange: {} to {}",
-                  trackingCode, startDate, endDate);
+                  trackingCode, fromDate, toDate);
 
         Record2<Integer, Integer> result = dsl
                 .select(
@@ -58,14 +58,14 @@ public class SalesAnalyticsService {
     }
 
 
-    public CommissionSummary getTotalCommission(String trackingCode, LocalDate startDate, LocalDate endDate) {
-        LocalDateTime fromDateTime = startDate.atStartOfDay();
-        LocalDateTime toDateTime = endDate.atTime(LocalTime.MAX);
+    public CommissionSummary getTotalCommission(String trackingCode, LocalDate fromDate, LocalDate toDate) {
+        LocalDateTime fromDateTime = fromDate.atStartOfDay();
+        LocalDateTime toDateTime = toDate.atTime(LocalTime.MAX);
 
         validateDateRange(fromDateTime, toDateTime);
 
         log.debug("Getting total commission for trackingCode: {}, dateRange: {} to {}",
-                  trackingCode, startDate, endDate);
+                  trackingCode, fromDate, toDate);
 
         Record2<BigDecimal, Integer> result = dsl
                 .select(
@@ -89,13 +89,13 @@ public class SalesAnalyticsService {
     }
 
 
-    public List<ProductConversion> getProductConversionRates(LocalDate startDate, LocalDate endDate) {
-        LocalDateTime fromDateTime = startDate.atStartOfDay();
-        LocalDateTime toDateTime = endDate.atTime(LocalTime.MAX);
+    public List<ProductConversion> getProductConversionRates(LocalDate fromDate, LocalDate toDate) {
+        LocalDateTime fromDateTime = fromDate.atStartOfDay();
+        LocalDateTime toDateTime = toDate.atTime(LocalTime.MAX);
 
         validateDateRange(fromDateTime, toDateTime);
 
-        log.debug("Getting product conversion rates for dateRange: {} to {}", startDate, endDate);
+        log.debug("Getting product conversion rates for dateRange: {} to {}", fromDate, toDate);
 
         List<Record4<String, Integer, Integer, Double>> results = dsl
                 .select(
