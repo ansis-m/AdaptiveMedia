@@ -44,17 +44,17 @@ public class SalesAnalyticsController {
     })
     @GetMapping("/conversion-rate")
     public ConversionRate getConversionRate(
-            @Parameter(description = "Landing page tracking code", required = true, example = "ABB")
+            @Parameter(description = "Landing page tracking code", required = true, example = "ABB,TBS,EKW")
             @NotBlank(message = "Landing page code cannot be blank")
             @ValidTrackingCode
             @RequestParam String trackingCode,
 
             @Parameter(description = "Start date and time (ISO format)", required = true,
-                    example = "2024-01-01")
+                    example = "2025-08-22")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
 
             @Parameter(description = "End date and time (ISO format)", required = true,
-                    example = "2024-01-31")
+                    example = "2025-08-22")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
         log.info("Getting conversion rate for landingPageCode: {}, dateRange: {} to {}",
@@ -74,16 +74,16 @@ public class SalesAnalyticsController {
     })
     @GetMapping("/commission")
     public CommissionSummary getTotalCommission(
-            @Parameter(description = "Landing page tracking code", required = true, example = "ABB")
+            @Parameter(description = "Landing page tracking code", required = true, example = "ABB,TBS,EKW")
             @ValidTrackingCode
             @RequestParam String trackingCode,
 
             @Parameter(description = "Start date and time (ISO format)", required = true,
-                    example = "2024-01-01")
+                    example = "2025-08-22")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
 
             @Parameter(description = "End date and time (ISO format)", required = true,
-                    example = "2024-01-31")
+                    example = "2025-08-22")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
         log.info("Getting total commission for landingPageCode: {}, dateRange: {} to {}",
@@ -104,11 +104,11 @@ public class SalesAnalyticsController {
     @GetMapping("/product-conversions")
     public List<ProductConversion> getProductConversionRates(
             @Parameter(description = "Start date and time (ISO format)", required = true,
-                    example = "2024-01-01")
+                    example = "2025-08-22")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
 
             @Parameter(description = "End date and time (ISO format)", required = true,
-                    example = "2024-01-31")
+                    example = "2025-08-22")
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate) {
 
         log.info("Getting product conversion rates for dateRange: {} to {}", fromDate, toDate);

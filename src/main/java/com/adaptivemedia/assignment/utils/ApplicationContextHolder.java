@@ -1,4 +1,4 @@
-package com.adaptivemedia.assignment.config;
+package com.adaptivemedia.assignment.utils;
 
 import lombok.Getter;
 import org.springframework.beans.BeansException;

@@ -1,6 +1,6 @@
 package com.adaptivemedia.assignment.web.validators;
 
-import com.adaptivemedia.assignment.config.ApplicationContextHolder;
+import com.adaptivemedia.assignment.utils.ApplicationContextHolder;
 import com.adaptivemedia.assignment.properties.TrackingProperties;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

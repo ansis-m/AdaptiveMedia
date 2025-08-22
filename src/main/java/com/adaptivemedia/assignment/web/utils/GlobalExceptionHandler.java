@@ -1,4 +1,4 @@
-package com.adaptivemedia.assignment.web;
+package com.adaptivemedia.assignment.web.utils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.ConstraintViolation;

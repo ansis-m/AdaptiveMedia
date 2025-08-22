@@ -38,8 +38,8 @@ public class SalesAnalyticsService {
 
         Record2<Integer, Integer> result = dsl
                 .select(
-                        count().as("totalVisits"),
-                        count(SALES_DATA.SALE_DATE).as("totalSales")
+                        count().as("visit_actions"),
+                        count(SALES_DATA.SALE_DATE).as("purchase_actions")
                 )
                 .from(SALES_DATA)
                 .where(SALES_DATA.TRACKING_CODE.eq(trackingCode))
@@ -50,11 +50,11 @@ public class SalesAnalyticsService {
             return new ConversionRate(trackingCode, 0L, 0L, 0.0);
         }
 
-        Long totalVisits = result.component1().longValue();
-        Long totalSales = result.component2().longValue();
-        Double conversionRate = totalVisits > 0 ? (totalSales.doubleValue() / totalVisits.doubleValue()) * 100 : 0.0;
+        Long visitActions = result.component1().longValue();
+        Long purchaseActions = result.component2().longValue();
+        Double conversionRate = visitActions > 0 ? (purchaseActions.doubleValue() / visitActions.doubleValue()) * 100 : 0.0;
 
-        return new ConversionRate(trackingCode, totalVisits, totalSales, conversionRate);
+        return new ConversionRate(trackingCode, visitActions, purchaseActions, conversionRate);
     }
 
 
@@ -70,7 +70,7 @@ public class SalesAnalyticsService {
         Record2<BigDecimal, Integer> result = dsl
                 .select(
                         sum(SALES_DATA.COMMISSION_AMOUNT).as("total_commission"),
-                        count(SALES_DATA.SALE_DATE).as("total_sales")
+                        count(SALES_DATA.SALE_DATE).as("purchase_actions")
                 )
                 .from(SALES_DATA)
                 .where(SALES_DATA.TRACKING_CODE.eq(trackingCode))
@@ -82,10 +82,10 @@ public class SalesAnalyticsService {
             return new CommissionSummary(trackingCode, BigDecimal.ZERO, 0L);
         }
 
-        BigDecimal totalCommission = result.component2() != null ? BigDecimal.valueOf(result.component2()) : BigDecimal.ZERO;
-        Long totalSales = result.component2().longValue();
+        BigDecimal totalCommission = result.component1() != null ? result.component1() : BigDecimal.ZERO;
+        Long purchaseActions = result.component2().longValue();
 
-        return new CommissionSummary(trackingCode, totalCommission, totalSales);
+        return new CommissionSummary(trackingCode, totalCommission, purchaseActions);
     }
 
 
@@ -100,8 +100,8 @@ public class SalesAnalyticsService {
         List<Record4<String, Integer, Integer, Double>> results = dsl
                 .select(
                         SALES_DATA.PRODUCT,
-                        count().as("total_visits"),
-                        count(SALES_DATA.SALE_DATE).as("total_sales"),
+                        count().as("visit_actions"),
+                        count(SALES_DATA.SALE_DATE).as("sales_actions"),
                         case_()
                                 .when(count().gt(0),
                                       count(SALES_DATA.SALE_DATE).cast(Double.class)

@@ -2,7 +2,7 @@ package com.adaptivemedia.assignment.records;
 
 public record ConversionRate(
         String trackingCode,
-        Long totalVisits,
-        Long totalSales,
+        Long visitActions,
+        Long purchaseAction,
         Double conversionRate
 ) {}
