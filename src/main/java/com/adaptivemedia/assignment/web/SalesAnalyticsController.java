@@ -4,6 +4,7 @@ import com.adaptivemedia.assignment.records.CommissionSummary;
 import com.adaptivemedia.assignment.records.ConversionRate;
 import com.adaptivemedia.assignment.records.ProductConversion;
 import com.adaptivemedia.assignment.services.SalesAnalyticsService;
+import com.adaptivemedia.assignment.web.validators.ValidTrackingCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,9 +12,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/sales-analytics")
 @RequiredArgsConstructor
+@Validated
 @Slf4j
 @Tag(name = "Sales Analytics", description = "APIs for sales tracking and conversion analytics")
 public class SalesAnalyticsController {
@@ -41,6 +45,8 @@ public class SalesAnalyticsController {
     @GetMapping("/conversion-rate")
     public ConversionRate getConversionRate(
             @Parameter(description = "Landing page tracking code", required = true, example = "ABB")
+            @NotBlank(message = "Landing page code cannot be blank")
+            @ValidTrackingCode
             @RequestParam String trackingCode,
 
             @Parameter(description = "Start date and time (ISO format)", required = true,
@@ -69,6 +75,7 @@ public class SalesAnalyticsController {
     @GetMapping("/commission")
     public CommissionSummary getTotalCommission(
             @Parameter(description = "Landing page tracking code", required = true, example = "ABB")
+            @ValidTrackingCode
             @RequestParam String trackingCode,
 
             @Parameter(description = "Start date and time (ISO format)", required = true,
