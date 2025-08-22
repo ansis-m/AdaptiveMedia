@@ -23,28 +23,6 @@ services:
       timeout: 5s
       retries: 5
 
-  # Elasticsearch
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
-    container_name: adaptivemedia-elasticsearch
-    restart: unless-stopped
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-    networks:
-      - adaptivemedia-network
-    healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
-
   # Spring Boot Application
   app:
     build:
@@ -59,9 +37,6 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/adaptivemedia
       SPRING_DATASOURCE_USERNAME: adaptivemedia
       SPRING_DATASOURCE_PASSWORD: adaptivemedia
-
-      # Elasticsearch configuration
-      SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
 
       # JPA/Hibernate configuration
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
@@ -79,8 +54,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      elasticsearch:
-        condition: service_healthy
     networks:
       - adaptivemedia-network
     volumes:
@@ -94,6 +67,4 @@ networks:
 # Volumes
 volumes:
   postgres_data:
-    driver: local
-  elasticsearch_data:
     driver: local

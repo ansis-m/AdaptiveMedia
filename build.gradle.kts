@@ -4,6 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jooq.jooq-codegen-gradle") version "3.19.15"
     id("org.flywaydb.flyway") version "10.21.0"
+    id("org.springdoc.openapi-gradle-plugin") version "1.8.0"
 }
 
 group = "com.adaptivemedia"
@@ -38,15 +39,21 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter")
     implementation("org.springframework.cloud:spring-cloud-context")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
+    implementation("org.springdoc:springdoc-openapi-starter-common:2.3.0")
+
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 
     compileOnly("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
+
     runtimeOnly("org.postgresql:postgresql")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    annotationProcessor("org.projectlombok:lombok")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testRuntimeOnly("com.h2database:h2")
+
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    annotationProcessor("org.projectlombok:lombok")
 
     jooqCodegen("org.postgresql:postgresql")
     jooqCodegen("org.flywaydb:flyway-core")
@@ -64,6 +71,13 @@ buildscript {
         classpath("org.postgresql:postgresql:42.7.3")
         classpath("org.flywaydb:flyway-database-postgresql:10.21.0")
     }
+}
+
+openApi {
+    apiDocsUrl.set("http://localhost:8080/v3/api-docs")
+    outputDir.set(file("$layout.buildDirectory/docs"))
+    outputFileName.set("openapi.json")
+    waitTimeInSeconds.set(30)
 }
 
 flyway {
@@ -123,20 +137,4 @@ tasks.register("updateSchema") {
     description = "Run Flyway migrations and generate JOOQ code"
     dependsOn("flywayMigrate")
     finalizedBy("jooqCodegen")
-}
-
-tasks.register("dev") {
-    group = "development"
-    description = "Build and start all services"
-    dependsOn(tasks.clean, tasks.build)
-
-    doLast {
-        println("")
-        println("Build completed! Now run:")
-        println("docker-compose up --build -d")
-        println("")
-        println("Then access:")
-        println("App: http://localhost:8080")
-        println("Health: http://localhost:8080/actuator/health")
-    }
 }
