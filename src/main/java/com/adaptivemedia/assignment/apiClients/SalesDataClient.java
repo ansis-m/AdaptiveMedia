@@ -32,11 +32,8 @@ public interface SalesDataClient {
 @Configuration
 class HttpInterfaceConfig {
 
-    @Value("${api.sales.base-url:http://localhost:8081}")
-    private String baseUrl;
-
     @Bean
-    public SalesDataClient salesDataClient() {
+    public SalesDataClient salesDataClient(@Value("${api.sales.base-url}") String baseUrl) {
         WebClient webClient = WebClient.builder()
                                        .baseUrl(baseUrl)
                                        .codecs(configurer -> configurer
