@@ -1,19 +1,24 @@
 package com.adaptivemedia.assignment.web.validators;
 
+import com.adaptivemedia.assignment.config.ApplicationContextHolder;
 import com.adaptivemedia.assignment.properties.TrackingProperties;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
-@Component
-@RequiredArgsConstructor
+@Slf4j
 public class TrackingCodeValidator implements ConstraintValidator<ValidTrackingCode, String> {
-
-    private final TrackingProperties trackingProperties;
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+
+        TrackingProperties trackingProperties = ApplicationContextHolder.getBean(TrackingProperties.class);
+
+        if (trackingProperties == null) {
+            log.error("Tracking properties is null");
+            return true;
+        }
+
         return value != null && trackingProperties.getCodes().contains(value);
     }
 }
