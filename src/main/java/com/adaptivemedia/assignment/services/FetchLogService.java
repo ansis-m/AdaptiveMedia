@@ -6,6 +6,7 @@ import org.jooq.DSLContext;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static com.adaptivemedia.assignment.jooq.Tables.FETCH_LOG;
 
@@ -16,15 +17,14 @@ public class FetchLogService {
 
     private final DSLContext dsl;
 
-    public LocalDate getLastFetchDate() {
+    public Optional<LocalDate> getLastFetchDate() {
         LocalDate result = dsl.select(FETCH_LOG.FETCH_DATE)
-                                            .from(FETCH_LOG)
-                                            .orderBy(FETCH_LOG.ID.desc())
-                                            .limit(1)
-                                            .fetchOne(FETCH_LOG.FETCH_DATE);
+                              .from(FETCH_LOG)
+                              .orderBy(FETCH_LOG.ID.desc())
+                              .limit(1)
+                              .fetchOne(FETCH_LOG.FETCH_DATE);
 
-        log.debug("Retrieved last fetch timestamp: {}", result);
-        return result;
+        return Optional.ofNullable(result);
     }
 
     public void recordCompletedFetch(LocalDate date) {
