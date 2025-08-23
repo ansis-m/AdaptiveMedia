@@ -1,10 +1,10 @@
 # AdaptiveMedia
 
-Spring Boot application with PostgreSQL, JOOQ and Swagger.
+SpringBoot application with PostgreSQL, JOOQ and Swagger.
 
 ## Prerequisites
 
-- Docker Desktop - ideally should pull postgres:16-alpine beforehand
+- Docker - ideally should pull postgres:16-alpine beforehand
 - Java 21 (only needed for local development)
 - IntelliJ IDEA (recommended for development)
 
@@ -24,8 +24,8 @@ docker-compose -f docker-compose-prebuilt.yml up -d
 ```bash
 docker-compose -f docker-compose-prebuilt.yml down
 ```
-
 This approach ensures consistent cross-platform compatibility (Windows/Mac/Linux) with no build step required.
+
 
 ### Option 2: Build Locally
 
@@ -34,6 +34,10 @@ If you prefer to build the application locally:
 #### Build the application
 ```bash
 ./gradlew clean build
+```
+or if test containers fail for some reason, disable the tests during the build
+```bash
+./gradlew clean build -x test
 ```
 
 #### Start all services (PostgreSQL + App) - initial run might take some time to download postgres image
@@ -84,7 +88,7 @@ This task automatically:
 1. **Runs Flyway migrations** - Applies all pending database migrations from `src/main/resources/db/migration`
 2. **Generates JOOQ code** - Creates type-safe Java classes for database tables in `src/main/java/generated`
 
-### Generated code is committed with sources - this circumvents chicken-and-egg problem
+### Generated code is committed with sources - this circumvents the chicken-and-egg problem
 
 Run this whenever you add new migration files or need to sync your JOOQ classes with database changes.
 

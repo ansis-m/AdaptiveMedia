@@ -31,7 +31,7 @@ public class SalesAnalyticsServiceTest extends BaseIntegrationTest {
 
     @ParameterizedTest
     @MethodSource("conversionArgsProvider")
-    void shouldCalculateConversionRateForABBJan15(
+    void shouldCalculateConversionRate(
             String trackingCode,
             LocalDate fromDate,
             LocalDate toDate,
@@ -54,7 +54,14 @@ public class SalesAnalyticsServiceTest extends BaseIntegrationTest {
     public static Stream<Arguments> conversionArgsProvider() {
         return Stream.of(
                 Arguments.of("ABB", LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 15), 3L, 3L, 100.0),
-                Arguments.of("ABB", LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 16), 4L, 3L, 75.0)
+                Arguments.of("ABB", LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 16), 4L, 3L, 75.0),
+                Arguments.of("ABB", LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 16), 4L, 3L, 75.0),
+                Arguments.of("ABB", LocalDate.of(2024, 1, 18), LocalDate.of(2024, 1, 18), 1L, 1L, 100.0),
+                Arguments.of("ABB", LocalDate.of(2024, 1, 1), LocalDate.of(2024, 1, 20), 5L, 4L, 80.0),
+                Arguments.of("TBS", LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 15), 0L, 0L, 0.0),
+                Arguments.of("TBS", LocalDate.of(2024, 1, 16), LocalDate.of(2024, 1, 16), 1L, 0L, 0.0),
+                Arguments.of("EKW", LocalDate.of(2024, 1, 15), LocalDate.of(2024, 1, 15), 0L, 0L, 0.0),
+                Arguments.of("EKW", LocalDate.of(2024, 1, 16), LocalDate.of(2024, 1, 16), 1L, 1L, 100.0)
         );
     }
 }

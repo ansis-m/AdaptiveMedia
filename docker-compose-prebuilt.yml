@@ -32,7 +32,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      # Database configuration
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/adaptivemedia
       SPRING_DATASOURCE_USERNAME: adaptivemedia
       SPRING_DATASOURCE_PASSWORD: adaptivemedia

@@ -53,7 +53,7 @@ public class SchedulerService {
     public void pollForNewData() {
         log.info("Scheduler triggered data fetch");
 
-        LocalDate lastFetchDate = fetchLogService.getLastFetchDate().orElseGet(() -> LocalDate.now(clock).minusDays(30));
+        LocalDate lastFetchDate = fetchLogService.getLastFetchDate().orElseGet(() -> LocalDate.now(clock).minusDays(11)); //juno starts generating from 10 days ago
         final LocalDate today = LocalDate.now(clock);
 
         while (lastFetchDate.isBefore(today) || lastFetchDate.isEqual(today)) {

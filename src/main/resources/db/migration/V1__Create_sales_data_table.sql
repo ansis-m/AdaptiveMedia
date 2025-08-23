@@ -11,13 +11,10 @@ CREATE TABLE sales_data (
 
 CREATE INDEX idx_sales_data_tracking_id ON sales_data(tracking_id);
 
--- For landing page code + date interval queries (APIs 1 & 2)
 CREATE INDEX idx_sales_data_code_visit_sale_dates ON sales_data(tracking_code, visit_date, sale_date);
 
--- For product conversion rates by date interval (API 3)
 CREATE INDEX idx_sales_data_visit_sale_product ON sales_data(visit_date, sale_date, product);
 
--- Alternative covering index for API 1 & 2 (includes commission in index)
 CREATE INDEX idx_sales_data_code_dates_commission ON sales_data(tracking_code, visit_date, sale_date) INCLUDE (commission_amount);
 
 COMMENT ON TABLE sales_data IS 'Sales tracking data received from external APIs';
