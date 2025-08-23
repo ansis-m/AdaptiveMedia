@@ -1,37 +1,57 @@
 # AdaptiveMedia
 
-Spring Boot application with PostgreSQL and Swagger.
+Spring Boot application with PostgreSQL, JOOQ and Swagger.
 
 ## Prerequisites
 
-- Java 21
 - Docker Desktop
+- Java 21 (only needed for local development)
 - IntelliJ IDEA (recommended for development)
 
 ## 🚀 Deployment
+Before deployment **juno** is required to be up and running
 
-Run everything in containers:
+### Option 1: Using Pre-built Docker Image (Recommended)
 
-### Build the application
+The simplest way to run the application - uses a pre-built image from Docker Hub:
+
+```bash
+# Start all services (PostgreSQL + App)
+docker-compose -f docker-compose-prebuilt.yml up -d
+```
+
+**Stop deployment:**
+```bash
+docker-compose -f docker-compose-prebuilt.yml down
+```
+
+This approach ensures consistent cross-platform compatibility (Windows/Mac/Linux) with no build step required.
+
+### Option 2: Build Locally
+
+If you prefer to build the application locally:
+
+#### Build the application
 ```bash
 ./gradlew clean build
 ```
 
-### Start all services (PostgreSQL + App) - initial run might take some time to download postgress image
+#### Start all services (PostgreSQL + App) - initial run might take some time to download postgres image
 ```bash
 docker-compose up --build -d
 ```
-
-
-**Services:**
-- Application: http://localhost:8080
-- PostgreSQL: http://localhost:5432
-- Swagger: http://localhost:8080/swagger-ui/index.html
 
 **Stop deployment:**
 ```bash
 docker-compose down
 ```
+
+### Access Points
+
+**Services:**
+- Application: http://localhost:8080
+- PostgreSQL: http://localhost:5432
+- Swagger: http://localhost:8080/swagger-ui/index.html
 
 ## 🛠️ Development
 
@@ -55,7 +75,7 @@ docker stop adaptivemedia-app
 
 ## 🔄 Database Schema Management
 
-### Update Schema Flyway + JOOQ (db must be up and running): create flywheel script and then 
+### Update Schema Flyway + JOOQ (postgress must be up and running): create flywheel .sql script and then
 ```bash
 ./gradlew updateSchema
 ```
@@ -73,10 +93,14 @@ Run this whenever you add new migration files or need to sync your JOOQ classes 
 ```bash
 # View running containers
 docker-compose ps
+# or for pre-built version
+docker-compose -f docker-compose-prebuilt.yml ps
 ```
 ```bash
 # View application logs
 docker-compose logs app
+# or for pre-built version
+docker-compose -f docker-compose-prebuilt.yml logs app
 ```
 ```bash
 # View service logs
@@ -94,3 +118,7 @@ docker-compose logs postgres
 - **Database:** adaptivemedia
 - **Username:** adaptivemedia
 - **Password:** adaptivemedia
+
+## 📦 Docker Hub Image
+
+The application image is publicly available on Docker Hub as `ansism/adaptivemedia-app:latest`
