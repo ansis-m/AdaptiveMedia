@@ -125,6 +125,15 @@ jooq {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+        showStandardStreams = true  // Show console output
+        showExceptions = true
+        showCauses = true
+        showStackTraces = true
+    }
+    environment("TESTCONTAINERS_REUSE_ENABLE", "false")
+    systemProperty("testcontainers.startup.timeout", "120")
 }
 
 tasks.jar {

@@ -5,6 +5,7 @@ import com.adaptivemedia.assignment.apiClients.SalesDataClient;
 import com.adaptivemedia.assignment.jooq.tables.pojos.SalesData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "scheduler.enabled", havingValue = "true", matchIfMissing = true)
 public class SchedulerService {
 
     private final SalesDataClient salesDataClient;
