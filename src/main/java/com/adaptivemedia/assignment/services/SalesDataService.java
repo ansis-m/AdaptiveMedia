@@ -4,12 +4,12 @@ import com.adaptivemedia.assignment.jooq.Keys;
 import com.adaptivemedia.assignment.jooq.tables.pojos.SalesData;
 import com.adaptivemedia.assignment.jooq.tables.records.SalesDataRecord;
 import com.adaptivemedia.assignment.properties.TrackingProperties;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jooq.DSLContext;
 import org.jooq.InsertReturningStep;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -71,7 +71,9 @@ public class SalesDataService {
     }
 
     private boolean trackingIdsBelongToAdaptiveMediaPages(SalesData salesData) {
-        return trackingProperties.getCodes().stream().anyMatch(salesData.getTrackingId()::startsWith);
+        return salesData.getTrackingId() != null
+               && salesData.getTrackingId().length() > 2
+               && trackingProperties.getCodes().stream().anyMatch(salesData.getTrackingId()::startsWith);
     }
 
     private InsertReturningStep<SalesDataRecord> mapToStep(SalesData salesData) {

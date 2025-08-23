@@ -22,10 +22,9 @@ services:
       timeout: 5s
       retries: 5
 
+  # Spring Boot Application (using pre-built image from Docker Hub)
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ansism/adaptivemedia-app:latest
     container_name: adaptivemedia-app
     restart: unless-stopped
     ports:
@@ -40,15 +39,12 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       EXTERNAL_API_URL: http://host.docker.internal:8081
 
-      # JPA/Hibernate configuration
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       SPRING_JPA_SHOW_SQL: false
 
-      # Flyway configuration
       SPRING_FLYWAY_ENABLED: true
       SPRING_FLYWAY_BASELINE_ON_MIGRATE: true
 
-      # JVM options
       JAVA_OPTS: "-Xms256m -Xmx512m"
     depends_on:
       postgres:
@@ -57,6 +53,7 @@ services:
       - adaptivemedia-network
     volumes:
       - ./logs:/app/logs
+    pull_policy: always
 
 networks:
   adaptivemedia-network:
