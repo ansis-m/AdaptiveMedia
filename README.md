@@ -4,7 +4,7 @@ Spring Boot application with PostgreSQL, JOOQ and Swagger.
 
 ## Prerequisites
 
-- Docker Desktop
+- Docker Desktop - ideally should pull postgres:16-alpine beforehand
 - Java 21 (only needed for local development)
 - IntelliJ IDEA (recommended for development)
 

@@ -15,6 +15,10 @@ public class DatabaseConnectionTest extends BaseIntegrationTest {
     private DSLContext dslContext;
 
     @Test
+    void contextLoads() {
+    }
+
+    @Test
     public void testDatabaseConnection() {
         var result = dslContext.fetchOne("SELECT 1");
         assertThat(result.getValue(0)).isEqualTo(1);
