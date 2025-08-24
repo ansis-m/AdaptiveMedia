@@ -31,7 +31,7 @@ public class DatabaseConnectionTest extends BaseIntegrationTest {
 
         assertThat(record).isNotNull();
 
-        assertThat(record.getFetchDate()).isEqualTo(LocalDate.of(2025, 1, 1));
+        assertThat(record.getFetchDate()).isEqualTo(LocalDate.of(2025, 8, 1));
         assertThat(record.getId()).isNotNull();
         assertThat(record.getId()).isGreaterThan(0L);
         System.out.println("Found row: id=" + record.getId() + ", fetch_date=" + record.getFetchDate());
