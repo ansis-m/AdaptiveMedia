@@ -21,6 +21,7 @@ public class LockService {
         if (acquired == null || !acquired) {
             throw new RuntimeException("Failed to acquire lock: " + lockName);
         }
+        log.debug("Lock '{}' acquired", lockName);
     }
 
     public void releaseLock(String lockName) {

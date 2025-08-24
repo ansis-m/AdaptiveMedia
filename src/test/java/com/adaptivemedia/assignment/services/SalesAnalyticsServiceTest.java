@@ -5,7 +5,6 @@ import com.adaptivemedia.assignment.BaseIntegrationTest;
 import com.adaptivemedia.assignment.records.CommissionSummary;
 import com.adaptivemedia.assignment.records.ConversionRate;
 import com.adaptivemedia.assignment.records.ProductConversion;
-import org.jooq.DSLContext;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,9 +26,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Sql(scripts = "/db/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @Transactional
 public class SalesAnalyticsServiceTest extends BaseIntegrationTest {
-
-    @Autowired
-    private DSLContext dslContext;
 
     @Autowired
     private SalesAnalyticsService salesAnalyticsService;

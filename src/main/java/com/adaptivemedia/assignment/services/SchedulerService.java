@@ -1,6 +1,5 @@
 package com.adaptivemedia.assignment.services;
 
-
 import com.adaptivemedia.assignment.apiClients.SalesDataClient;
 import com.adaptivemedia.assignment.jooq.tables.pojos.SalesData;
 import lombok.RequiredArgsConstructor;
